@@ -4,6 +4,7 @@ import "./globals.css";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 import MobileActionBar from "@/components/mobile-action-bar";
+import { Analytics } from "@vercel/analytics/next"
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://graderrental.com";
@@ -183,6 +184,7 @@ export default function RootLayout({
         {children}
         <MobileActionBar />
         <SiteFooter />
+        <Analytics/>
       </body>
     </html>
   );
