@@ -42,7 +42,7 @@ export default function SiteHeader() {
         >
           <span className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#f2b638] text-[#182b3a]">
             <img
-              src="/logo.png"
+              src="/navLogo.png"
               alt="SIRAHA Logo"
               className="h-full w-full object-contain"
             />
