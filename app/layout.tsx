@@ -106,9 +106,9 @@ export const metadata: Metadata = {
 
   icons: {
     icon: [
-      { url: "/whiteLogoGrader.png", type: "image/svg+xml" },
+      { url: "/whiteLogoGrader.svg", type: "image/svg+xml" },
     ],
-    shortcut: "/whiteLogoGrader.png",
+    shortcut: "/whiteLogoGrader.svg",
     apple: "/whiteLogoGrader.png",
   },
 
@@ -124,7 +124,7 @@ const jsonLd = {
   url: siteUrl,
   telephone: "+9779702803911",
   image: `${siteUrl}/grader-2.webp`,
-  logo: `${siteUrl}/whiteLogoGrader.png`,
+  logo: `${siteUrl}/whiteLogoGrader.svg`,
   areaServed: [
     {
       "@type": "City",
