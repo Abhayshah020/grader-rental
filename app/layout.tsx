@@ -37,8 +37,10 @@ export const metadata: Metadata = {
     "excavator rent",
     "excavator rental",
     "heavy equipment rental",
+    "used grader rent nepal",
 
     // Local SEO keywords
+    "grader rent nepal near me",
     "grader rental in Lahan",
     "grader rent in Siraha",
     "roller rental in Lahan",
@@ -49,6 +51,8 @@ export const metadata: Metadata = {
     "road construction equipment rental Nepal",
 
     // Service-related keywords
+    "motor grader rent nepal",
+    "construction equipment rent",
     "road construction machinery",
     "land leveling equipment rental",
     "infrastructure equipment rental",
