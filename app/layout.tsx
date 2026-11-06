@@ -6,8 +6,8 @@ import "./globals.css";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 import MobileActionBar from "@/components/mobile-action-bar";
-// import { Analytics } from "@vercel/analytics/next"
-// import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Poppins } from "next/font/google";
 
 import CustomerSupportLoader from "@/components/customer-support-loader";
@@ -204,8 +204,8 @@ export default function RootLayout({
         <CustomerSupportLoader />
         {process.env.NODE_ENV === "production" && (
           <>
-            {/* <Analytics /> */}
-            {/* <SpeedInsights /> */}
+            <Analytics />
+            <SpeedInsights />
           </>
         )}
       </body>
