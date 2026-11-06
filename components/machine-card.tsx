@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 
 type MachineCardProps = {
   title: string;
@@ -14,7 +15,7 @@ export default function MachineCard({ title, subtitle, image, href, description 
     <article className="group flex h-full flex-col overflow-hidden border border-[#e4e9ed] bg-white">
       <Link href={href} aria-label={`View ${title} rental details`} className="block overflow-hidden bg-[#edf1f3]">
         <div className="aspect-[16/10] overflow-hidden sm:aspect-[5/3]">
-          <img src={image} alt={title} loading="lazy" decoding="async" className="machine-image h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.035]" />
+          <Image width={350} height={200} src={image} alt={title} loading="lazy" decoding="async" className="machine-image h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.035]"  />
         </div>
       </Link>
       <div className="flex flex-1 flex-col p-4 sm:p-6">

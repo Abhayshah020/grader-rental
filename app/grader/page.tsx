@@ -32,7 +32,7 @@ export const metadata: Metadata = {
         type: "website",
         images: [
             {
-                url: "/grader-2.jpg",
+                url: "/grader-2.webp",
                 width: 1200,
                 height: 630,
                 alt: "Motor grader available for road construction rental",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
         title: "Grader Rental in Lahan, Siraha",
         description:
             "Motor grader rental for road construction, grading and levelling projects in Siraha, Nepal.",
-        images: ["/grader-2.jpg"],
+        images: ["/grader-2.webp"],
     },
 };
 
@@ -80,7 +80,7 @@ export default function Page() {
             <MachinePage
                 machine="Grader"
                 subtitle="Road grading & levelling"
-                image="/grader-2.jpg"
+                image="/grader-2.webp"
                 intro="Arrange motor grader rental for road formation, levelling, 
 surface shaping and site preparation in Lahan, 
 Siraha and nearby areas. Share your project details and required dates to discuss availability."

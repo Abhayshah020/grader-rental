@@ -32,7 +32,7 @@ export const metadata: Metadata = {
         type: "website",
         images: [
             {
-                url: "/roller.jpg",
+                url: "/roller.webp",
                 width: 1200,
                 height: 630,
                 alt: "Road roller available for rental in Lahan, Siraha",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
         title: "Road Roller Rental in Lahan, Siraha",
         description:
             "Arrange road roller rental for construction and compaction projects in Siraha, Nepal.",
-        images: ["/roller.jpg"],
+        images: ["/roller.webp"],
     },
 };
 
@@ -80,7 +80,7 @@ export default function Page() {
             <MachinePage
                 machine="Road Roller"
                 subtitle="Road & surface compaction"
-                image="/roller.jpg"
+                image="/roller.webp"
                 intro="Arrange road roller rental for compaction work on suitable soil, aggregate and asphalt surfaces. Contact our Lahan, Siraha rental service with your work location and schedule to discuss the right arrangement."
                 uses={[
                     "Compaction of prepared road subgrade and base layers",

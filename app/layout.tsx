@@ -1,11 +1,21 @@
 
 import type { Metadata } from "next";
+// @ts-ignore Next.js handles global CSS imports at build time.
 import "./globals.css";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 import MobileActionBar from "@/components/mobile-action-bar";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import CustomerSupportWidget from "@/components/customer-support-widget";
+import { Poppins} from "next/font/google";
+
+const poppins = Poppins({
+    subsets: ["latin"],
+    display: "swap",
+    weight: ["400", "500", "600", "700", "800"],
+    variable: "--font-poppins",
+});
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || "https://graderrental.com";
@@ -115,7 +125,7 @@ export const metadata: Metadata = {
       { url: "/whiteLogoGrader.svg", type: "image/svg+xml" },
     ],
     shortcut: "/whiteLogoGrader.svg",
-    apple: "/whiteLogoGrader.png",
+    apple: "/whiteLogoGrader.webp",
   },
 
   category: "business",
@@ -174,7 +184,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={poppins.variable}>
       <head>
         <script
           type="application/ld+json"
@@ -189,8 +199,9 @@ export default function RootLayout({
         {children}
         <MobileActionBar />
         <SiteFooter />
-        <Analytics/>
+        <Analytics />
         <SpeedInsights />
+        <CustomerSupportWidget />
       </body>
     </html>
   );

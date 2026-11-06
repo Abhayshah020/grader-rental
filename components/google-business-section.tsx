@@ -17,7 +17,7 @@ export default function GoogleBusinessSection() {
           </a>
         </div>
         <a href={googleMapsUrl} target="_blank" rel="noreferrer" className="flex items-center gap-4 self-start border border-[#e4e9ed] bg-white p-3 sm:self-center">
-          <Image src="/google-business-qr.png" alt="QR code for the business Google Maps profile" width={112} height={112} className="h-24 w-24 sm:h-28 sm:w-28" />
+          <Image src="/google-business-qr.webp" alt="QR code for the business Google Maps profile" width={112} height={112} className="h-24 w-24 sm:h-28 sm:w-28" />
           <span className="max-w-32 text-sm font-bold leading-5 text-[#243746]">Scan to find our office <span className="mt-1 block text-xs font-medium text-[#7b8790]">Google Maps profile</span></span>
         </a>
         <p className="text-xs leading-5 text-[#7b8790] sm:col-span-2"><Star size={13} className="mr-1 inline-block -translate-y-px" /> After visiting, customers can leave a review from the Google Business profile.</p>

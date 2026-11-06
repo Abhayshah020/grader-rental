@@ -74,7 +74,7 @@ export default function BookingPage() {
                         <h2 className="mt-3 text-2xl font-extrabold">
                             Speak with our rental service.
                         </h2>
-                        <p className="mt-4 text-sm leading-7 text-[#637381]">
+                        <p className="mt-4 text-sm leading-7 text-[#637381] text-justify">
                             For availability, rates, transport and project requirements,
                             call us directly or submit the form. A booking request is not
                             a confirmed reservation until details are agreed with our team.
@@ -136,6 +136,29 @@ export default function BookingPage() {
                                 className="mt-4 inline-flex items-center gap-2 text-sm font-extrabold text-[#94650d]"
                             >
                                 Call the rental service <Phone size={15} />
+                            </a>
+                        </div>
+
+                        <div className="mt-9 overflow-hidden border border-[#e5e9ed]">
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1705.2906447656565!2d86.48011285396322!3d26.721728297728042!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ee9762d53151d3%3A0x490d4b4e51e5d8ea!2sGrader%2FRoller%2FExcavator%20Rental!5e1!3m2!1sen!2snp!4v1793948629302!5m2!1sen!2snp"
+                                width="100%"
+                                height="260"
+                                style={{ border: 0 }}
+                                allowFullScreen
+                                loading="lazy"
+                                referrerPolicy="strict-origin-when-cross-origin"
+                                title="Grader Roller Excavator Rental location map"
+                            />
+
+                            <a
+                                href="https://www.google.com/maps/@26.7217283,86.4801129,18z/data=!3m1!1e3"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-center gap-2 bg-[#f7f9fa] px-4 py-3 text-sm font-bold text-[#94650d] transition hover:bg-[#edf1f4]"
+                            >
+                                <MapPin size={16} />
+                                View Satellite Location on Google Maps
                             </a>
                         </div>
                     </aside>

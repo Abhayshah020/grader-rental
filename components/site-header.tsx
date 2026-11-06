@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, X, Phone, HardHat, ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 
 const links = [
   ["Home", "/"],
@@ -33,7 +34,7 @@ export default function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-[70] border-b border-[#e8ecef] bg-white/95 backdrop-blur">
+    <header className="sticky z-[30] top-0 border-b border-[#e8ecef] bg-white/95 backdrop-blur">
       <div className="container-wide flex h-[78px] items-center justify-between gap-5">
         <Link
           href="/"
@@ -41,15 +42,19 @@ export default function SiteHeader() {
           onClick={() => setOpen(false)}
         >
           <span className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#f2b638] text-[#182b3a]">
-            <img
-              src="/navLogo.png"
+            <Image
+              src="/navLogo.webp"
               alt="SIRAHA Logo"
+              width={69}
+              height={69}
+              sizes="69px"
+              quality={80}
               className="h-full w-full object-contain"
             />
           </span>
 
           <span className="leading-tight">
-            <strong className="block font-[Manrope] text-[15px] font-extrabold tracking-tight">
+            <strong className=" text-[15px] font-extrabold tracking-tight">
               SIRAHA
             </strong>
             <span className="block text-[10px] font-bold uppercase tracking-[.12em] text-[#697985]">
@@ -101,9 +106,8 @@ export default function SiteHeader() {
 
       {/* Mobile drawer and backdrop */}
       <div
-        className={`fixed top-0 bottom-0 z-[1000] lg:hidden ${
-          open ? "pointer-events-auto" : "pointer-events-none"
-        }`}
+        className={`fixed top-0 bottom-0 z-[1000] lg:hidden ${open ? "pointer-events-auto" : "pointer-events-none"
+          }`}
         aria-hidden={!open}
       >
         {/* Backdrop */}
@@ -112,23 +116,64 @@ export default function SiteHeader() {
           tabIndex={open ? 0 : -1}
           aria-label="Close navigation"
           onClick={() => setOpen(false)}
-          className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${
-            open ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${open ? "opacity-100" : "opacity-0"
+            }`}
         />
 
         {/* Left-to-right sliding drawer */}
         <nav
           id="mobile-navigation"
-          className={`absolute left-0 top-0 flex h-[100dvh] w-[min(85vw,360px)] flex-col overflow-y-auto bg-white shadow-2xl transition-transform duration-300 ease-in-out ${
-            open ? "translate-x-0" : "-translate-x-full"
-          }`}
+          className={`
+            absolute left-0 top-0 flex h-[100dvh] w-[100dvw] 
+            flex-col overflow-y-auto bg-white shadow-2xl transition-transform 
+            duration-300 ease-in-out ${open ? "translate-x-0" : "-translate-x-full"}
+            `}
         >
+          <div className="flex items-center align-center justify-between border-b border-[#edf0f2] px-5 py-5">
+            <Link
+              href="/"
+              className="flex items-center gap-3"
+              onClick={() => setOpen(false)}
+            >
+              <span className="flex h-11 w-11 items-center justify-center rounded-sm bg-[#f2b638] text-[#182b3a]">
+                <Image
+                  src="/navLogo.webp"
+                  alt="SIRAHA Logo"
+                  width={69}
+                  height={69}
+                  sizes="69px"
+                  quality={80}
+                  className="h-full w-full object-contain"
+                />
+              </span>
+
+              <span className="leading-tight">
+                <strong className=" text-[15px] font-extrabold tracking-tight">
+                  SIRAHA
+                </strong>
+                <span className="block text-[10px] font-bold uppercase tracking-[.12em] text-[#697985]">
+                  Grader Roller Rental Service
+                </span>
+              </span>
+            </Link>
+
+
+            <button
+              type="button"
+              aria-label={open ? "Close navigation" : "Open navigation"}
+              aria-expanded={open}
+              aria-controls="mobile-navigation"
+              onClick={() => setOpen(!open)}
+              className="p-2 lg:hidden"
+            >
+              {open ? <X size={25} /> : <Menu size={25} />}
+            </button>
+          </div>
+
           <div className="flex-1 px-5 py-20">
-            <p className="mb-3 text-[10px] font-bold uppercase tracking-[.15em] text-[#9aa5ad]">
+            <p className="mb-3 text-[12px] font-bold uppercase tracking-[.15em] text-[#9aa5ad]">
               Navigation
             </p>
-
             {links.map(([label, href]) => (
               <Link
                 key={href}
@@ -141,26 +186,6 @@ export default function SiteHeader() {
                 <ArrowUpRight size={17} className="text-[#a87412]" />
               </Link>
             ))}
-          </div>
-
-          <div className="border-t border-[#e8ecef] p-5">
-            <a
-              href="tel:9702803911"
-              tabIndex={open ? 0 : -1}
-              className="flex min-h-12 items-center justify-center gap-2 bg-[#182b3a] px-4 text-sm font-bold text-white"
-            >
-              <Phone size={17} />
-              Call 9702803911
-            </a>
-
-            <Link
-              href="/booking"
-              tabIndex={open ? 0 : -1}
-              onClick={() => setOpen(false)}
-              className="mt-3 flex min-h-12 items-center justify-center bg-[#f2b638] px-4 text-sm font-extrabold text-[#182b3a]"
-            >
-              Request a Booking
-            </Link>
           </div>
         </nav>
       </div>

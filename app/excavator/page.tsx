@@ -32,7 +32,7 @@ export const metadata: Metadata = {
         type: "website",
         images: [
             {
-                url: "/excavator.jpg",
+                url: "/excavator.webp",
                 width: 1200,
                 height: 630,
                 alt: "Excavator available for earthmoving and construction rental",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
         title: "Excavator Rental in Lahan, Siraha",
         description:
             "Arrange excavator rental for construction, earthmoving and excavation work in Siraha, Nepal.",
-        images: ["/excavator.jpg"],
+        images: ["/excavator.webp"],
     },
 };
 
@@ -80,7 +80,7 @@ export default function Page() {
             <MachinePage
                 machine="Excavator"
                 subtitle="Excavation & earthmoving"
-                image="/excavator.jpg"
+                image="/excavator.webp"
                 intro="Arrange excavator rental for earthmoving, trenching, foundation excavation, 
        loading and site preparation. Tell us the work type, 
        site conditions and required rental dates in Lahan, Siraha or surrounding areas."
