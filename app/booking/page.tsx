@@ -55,32 +55,7 @@ export const metadata: Metadata = {
 export default function BookingPage() {
     return (
         <main>
-            {/* <section className="bg-[#f4f6f7]">
-                <div className="container-wide flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div>
-                        <p className="eyebrow">Booking & contact</p>
-                        <h1 className="mt-3 max-w-3xl text-4xl font-extrabold sm:text-5xl">
-                            Let's talk about your next project.
-                        </h1>
-                        <p className="mt-5 max-w-2xl text-base leading-8 text-[#637381]">
-                            Request a grader, road roller or excavator, or send us a general
-                            question. Share a few details and we will follow up directly.
-                        </p>
-                    </div>
-                    <div className="relative w-full md:w-[320px] lg:w-[380px] flex justify-center md:justify-end">
-                        <Image
-                            src="/smiling-woman.png"
-                            alt="Smiling engineer ready to assist"
-                            width={200}
-                            height={200}
-                            className="w-full max-w-[320px] lg:max-w-[380px] h-auto object-contain"
-                        />
-                    </div>
-                </div>
-            </section> */}
-
-
-            <section className="relative overflow-hidden bg-[#f4f6f7] pt-12 pb-10 sm:pt-14 md:pt-16 lg:pb-0 lg:pt-24">
+            <section className="relative overflow-hidden bg-[#f4f6f7] pt-12 pb-10 lg:pb-0">
 
                 {/* Background image: mobile and tablet */}
                 <div className="absolute inset-y-0 right-0 w-[60%] md:w-[42%] lg:hidden pointer-events-none">
