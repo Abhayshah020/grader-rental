@@ -64,7 +64,7 @@ function AIMessage({ content }: { content: string }) {
                         </ul>
                     ),
                     ol: ({ children }) => (
-                        <ol className="my-2 list-decimal space-y-1 pl-5 marker:font-bold marker:text-[#a87412]">
+                        <ol className="my-2 list-decimal space-y-1 pl-5 marker:font-bold marker:text-[#805600]">
                             {children}
                         </ol>
                     ),
@@ -76,7 +76,7 @@ function AIMessage({ content }: { content: string }) {
                             href={href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="font-semibold text-[#a87412] underline decoration-[#e5a928]/50 underline-offset-2 transition hover:text-[#805400]"
+                            className="font-semibold text-[#805600] underline decoration-[#e5a928]/50 underline-offset-2 transition hover:text-[#805400]"
                         >
                             {children}
                         </a>
@@ -165,8 +165,11 @@ export default function CustomerSupportWidget() {
 
     // Scroll to the latest message.
     useEffect(() => {
+        if (!aiOpen) return;
+
         messagesEndRef.current?.scrollIntoView({
             behavior: "smooth",
+            block: "nearest",
         });
     }, [messages, isLoading, aiOpen]);
 
@@ -244,91 +247,104 @@ export default function CustomerSupportWidget() {
             <div className="fixed bottom-20 right-4 z-[55] flex flex-col items-end gap-3 lg:bottom-6 sm:right-6">
 
                 {/* Welcome Popup */}
-                {welcomeOpen && !aiOpen && (
-                    <div className="support-popup mb-1 w-[min(340px,calc(100vw-32px))] overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl">
-
-                        <div className="flex items-start justify-between bg-[#17232d] p-5 text-white">
-                            <div>
-                                <div className="mb-2 flex items-center gap-2">
-                                    <Sparkles size={17} className="text-[#e5a928]" />
-                                    <span className="text-xs font-bold uppercase tracking-wider text-[#e5a928]">
-                                        Customer Support
-                                    </span>
-                                </div>
-
-                                <h3 className="text-lg font-extrabold">
-                                    How can we help you?
-                                </h3>
-
-                                <p className="mt-1 text-xs leading-5 text-gray-300">
-                                    Choose how you'd like to get in touch with us.
-                                </p>
+                <div
+                    aria-hidden={!welcomeOpen || aiOpen}
+                    inert={!welcomeOpen || aiOpen}
+                    className={`
+                        support-popup
+                        absolute bottom-full right-0 mb-1
+                        w-[min(340px,calc(100vw-32px))]
+                        overflow-hidden rounded-2xl
+                        border border-gray-200 bg-white shadow-2xl
+                        transition-[opacity,transform,visibility]
+                        duration-300 ease-in-out
+                        ${welcomeOpen && !aiOpen
+                            ? "visible translate-y-0 opacity-100"
+                            : "invisible translate-y-0 opacity-0 pointer-events-none"
+                        }
+                    `}
+                >
+                    <div className="flex items-start justify-between bg-[#17232d] p-5 text-white">
+                        <div>
+                            <div className="mb-2 flex items-center gap-2">
+                                <Sparkles size={17} className="text-[#e5a928]" />
+                                <span className="text-xs font-bold uppercase tracking-wider text-[#e5a928]">
+                                    Customer Support
+                                </span>
                             </div>
 
-                            <button
-                                onClick={() => setWelcomeOpen(false)}
-                                aria-label="Close welcome popup"
-                                className="rounded-full cursor-pointer p-1 text-gray-300 transition hover:bg-white/10 hover:text-white"
-                            >
-                                <X size={19} />
-                            </button>
-                        </div>
+                            <h3 className="text-lg font-extrabold">
+                                How can we help you?
+                            </h3>
 
-                        <div className="space-y-3 p-4">
-
-                            {/* WhatsApp Support */}
-                            <a
-                                href={`https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(
-                                    "Hello, I am interested in your grader/roller rental services."
-                                )}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={() => setWelcomeOpen(false)}
-                                className="flex items-center gap-3 rounded-xl border border-[#25D366]/30 bg-[#f0fff5] p-3 transition hover:border-[#25D366] hover:bg-[#e6ffef]"
-                            >
-                                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white">
-                                    <MessageCircle size={23} />
-                                </span>
-
-                                <span className="min-w-0 flex-1">
-                                    <span className="block text-sm font-extrabold text-gray-900">
-                                        WhatsApp Support
-                                    </span>
-                                    <span className="mt-1 block text-xs text-gray-500">
-                                        Chat directly with our team
-                                    </span>
-                                </span>
-
-                                <span className="text-lg text-[#25D366]">→</span>
-                            </a>
-
-                            {/* AI Support */}
-                            <button
-                                onClick={openAI}
-                                className="flex w-full items-center gap-3 rounded-xl border border-[#e5a928]/40 bg-[#fffaf0] p-3 text-left transition hover:border-[#e5a928] hover:bg-[#fff5df]"
-                            >
-                                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#e5a928] text-white">
-                                    <Bot size={24} />
-                                </span>
-
-                                <span className="min-w-0 flex-1">
-                                    <span className="block text-sm font-extrabold text-gray-900">
-                                        AI Assistant
-                                    </span>
-                                    <span className="mt-1 block text-xs text-gray-500">
-                                        Get instant answers about our services
-                                    </span>
-                                </span>
-
-                                <span className="text-lg text-[#a87412]">→</span>
-                            </button>
-
-                            <p className="pt-1 text-center text-[10px] text-gray-400">
-                                Siraha Grader & Roller Rental Service
+                            <p className="mt-1 text-xs leading-5 text-gray-300">
+                                Choose how you'd like to get in touch with us.
                             </p>
                         </div>
+
+                        <button
+                            onClick={() => setWelcomeOpen(false)}
+                            aria-label="Close welcome popup"
+                            className="rounded-full cursor-pointer p-1 text-gray-300 transition hover:bg-white/10 hover:text-white"
+                        >
+                            <X size={19} />
+                        </button>
                     </div>
-                )}
+
+                    <div className="space-y-3 p-4">
+
+                        {/* WhatsApp Support */}
+                        <a
+                            href={`https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(
+                                "Hello, I am interested in your grader/roller rental services."
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={() => setWelcomeOpen(false)}
+                            className="flex items-center gap-3 rounded-xl border border-[#25D366]/30 bg-[#f0fff5] p-3 transition hover:border-[#25D366] hover:bg-[#e6ffef]"
+                        >
+                            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#25D366] text-white">
+                                <MessageCircle size={23} />
+                            </span>
+
+                            <span className="min-w-0 flex-1">
+                                <span className="block text-sm font-extrabold text-gray-900">
+                                    WhatsApp Support
+                                </span>
+                                <span className="mt-1 block text-xs text-gray-500">
+                                    Chat directly with our team
+                                </span>
+                            </span>
+
+                            <span className="text-lg text-[#25D366]">→</span>
+                        </a>
+
+                        {/* AI Support */}
+                        <button
+                            onClick={openAI}
+                            className="flex w-full items-center gap-3 rounded-xl border border-[#e5a928]/40 bg-[#fffaf0] p-3 text-left transition hover:border-[#e5a928] hover:bg-[#fff5df]"
+                        >
+                            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#e5a928] text-white">
+                                <Bot size={24} />
+                            </span>
+
+                            <span className="min-w-0 flex-1">
+                                <span className="block text-sm font-extrabold text-gray-900">
+                                    AI Assistant
+                                </span>
+                                <span className="mt-1 block text-xs text-gray-500">
+                                    Get instant answers about our services
+                                </span>
+                            </span>
+
+                            <span className="text-lg text-[#805600]">→</span>
+                        </button>
+
+                        <p className="pt-1 text-center text-[10px] text-[#52616b]">
+                            Siraha Grader & Roller Rental Service
+                        </p>
+                    </div>
+                </div>
 
                 {/* AI Chat Window */}
                 {aiOpen && (
@@ -451,7 +467,7 @@ export default function CustomerSupportWidget() {
                                 placeholder="Type your message..."
                                 maxLength={1000}
                                 disabled={isLoading}
-                                className="h-11 min-w-0 flex-1 rounded-full border border-gray-200 bg-[#f7f9fa] px-4 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-[#e5a928] disabled:opacity-60"
+                                className="h-11 min-w-0 flex-1 rounded-full border border-gray-200 bg-[#f7f9fa] px-4 text-sm text-gray-700 outline-none transition placeholder:text-gray-400 focus:border-[#e5a928] disabled:opacity-60"
                             />
 
                             <button

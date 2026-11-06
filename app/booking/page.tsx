@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import BookingForm from "@/components/booking-form";
 import { MapPin, Phone, Clock3 } from "lucide-react";
+import Image from "next/image";
 
 export const metadata: Metadata = {
     title: "Book Grader, Roller & Excavator Rental | Lahan, Siraha",
@@ -54,18 +55,76 @@ export const metadata: Metadata = {
 export default function BookingPage() {
     return (
         <main>
-            <section className="bg-[#f4f6f7] py-16 sm:py-20">
-                <div className="container-wide">
-                    <p className="eyebrow">Booking & contact</p>
-                    <h1 className="mt-3 max-w-3xl text-4xl font-extrabold sm:text-5xl">
-                        Let's talk about your next project.
-                    </h1>
-                    <p className="mt-5 max-w-2xl text-base leading-8 text-[#637381]">
-                        Request a grader, road roller or excavator, or send us a general
-                        question. Share a few details and we will follow up directly.
-                    </p>
+            {/* <section className="bg-[#f4f6f7]">
+                <div className="container-wide flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div>
+                        <p className="eyebrow">Booking & contact</p>
+                        <h1 className="mt-3 max-w-3xl text-4xl font-extrabold sm:text-5xl">
+                            Let's talk about your next project.
+                        </h1>
+                        <p className="mt-5 max-w-2xl text-base leading-8 text-[#637381]">
+                            Request a grader, road roller or excavator, or send us a general
+                            question. Share a few details and we will follow up directly.
+                        </p>
+                    </div>
+                    <div className="relative w-full md:w-[320px] lg:w-[380px] flex justify-center md:justify-end">
+                        <Image
+                            src="/smiling-woman.png"
+                            alt="Smiling engineer ready to assist"
+                            width={200}
+                            height={200}
+                            className="w-full max-w-[320px] lg:max-w-[380px] h-auto object-contain"
+                        />
+                    </div>
+                </div>
+            </section> */}
+
+
+            <section className="relative overflow-hidden bg-[#f4f6f7] pt-12 pb-10 sm:pt-14 md:pt-16 lg:pb-0 lg:pt-24">
+
+                {/* Background image: mobile and tablet */}
+                <div className="absolute inset-y-0 right-0 w-[60%] md:w-[42%] lg:hidden pointer-events-none">
+                    <Image
+                        src="/smiling-woman-low.webp"
+                        alt="Booking grader roller excavator rental"
+                        fill
+                        priority
+                        sizes="(max-width: 768px) 55vw, 42vw"
+                        className="object-contain object-right-bottom opacity-25 sm:opacity-40"
+                    />
+                </div>
+
+                <div className="container-wide relative z-10 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8">
+
+                    <div className="w-full md:flex-1">
+                        <p className="eyebrow">Booking & contact</p>
+
+                        <h1 className="mt-3 max-w-3xl text-4xl font-extrabold sm:text-5xl">
+                            Let's talk about your project.
+                        </h1>
+
+                        <p className="mt-5 max-w-2xl text-base leading-8 text-[#637381]">
+                            Request a grader, road roller or excavator, or send us a general
+                            question. Share a few details and we will follow up directly.
+                        </p>
+                    </div>
+
+                    {/* Desktop image */}
+                    <div className="hidden lg:flex w-[360px] shrink-0 justify-end">
+                        <Image
+                            src="/smiling-woman-low.webp"
+                            alt="Smiling engineer ready to assist"
+                            width={380}
+                            height={380}
+                            priority
+                            className="w-full h-auto object-contain"
+                        />
+                    </div>
+
                 </div>
             </section>
+
+
 
             <section className="section-space">
                 <div className="container-wide grid gap-10 lg:grid-cols-[.7fr_1.3fr]">
@@ -82,7 +141,7 @@ export default function BookingPage() {
 
                         <div className="mt-8 space-y-6">
                             <div className="flex gap-4">
-                                <span className="flex h-11 w-11 items-center justify-center border border-[#e5a928] text-[#a87412]">
+                                <span className="flex h-11 w-11 items-center justify-center border border-[#e5a928] text-[#805600]">
                                     <Phone size={19} />
                                 </span>
                                 <div>
@@ -96,7 +155,7 @@ export default function BookingPage() {
                             </div>
 
                             <div className="flex gap-4">
-                                <span className="flex h-11 w-11 items-center justify-center border border-[#e5a928] text-[#a87412]">
+                                <span className="flex h-11 w-11 items-center justify-center border border-[#e5a928] text-[#805600]">
                                     <MapPin size={19} />
                                 </span>
                                 <div>
@@ -110,7 +169,7 @@ export default function BookingPage() {
                             </div>
 
                             <div className="flex gap-4">
-                                <span className="flex h-11 w-11 items-center justify-center border border-[#e5a928] text-[#a87412]">
+                                <span className="flex h-11 w-11 items-center justify-center border border-[#e5a928] text-[#805600]">
                                     <Clock3 size={19} />
                                 </span>
                                 <div>

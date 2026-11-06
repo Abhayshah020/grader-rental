@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 
 import type { Metadata } from "next";
 // @ts-ignore Next.js handles global CSS imports at build time.
@@ -5,16 +6,17 @@ import "./globals.css";
 import SiteHeader from "@/components/site-header";
 import SiteFooter from "@/components/site-footer";
 import MobileActionBar from "@/components/mobile-action-bar";
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import CustomerSupportWidget from "@/components/customer-support-widget";
-import { Poppins} from "next/font/google";
+// import { Analytics } from "@vercel/analytics/next"
+// import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Poppins } from "next/font/google";
+
+import CustomerSupportLoader from "@/components/customer-support-loader";
 
 const poppins = Poppins({
-    subsets: ["latin"],
-    display: "swap",
-    weight: ["400", "500", "600", "700", "800"],
-    variable: "--font-poppins",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-poppins",
 });
 
 const siteUrl =
@@ -92,7 +94,7 @@ export const metadata: Metadata = {
       "Reliable grader, road roller and excavator rental services for road construction and infrastructure projects in Lahan, Siraha and nearby areas. Contact us at 9702803911.",
     images: [
       {
-        url: "/grader-2.webp",
+        url: "/grader-2-low.webp",
         width: 1200,
         height: 630,
         alt: "Heavy motor grader available for rental in Lahan, Siraha",
@@ -105,7 +107,7 @@ export const metadata: Metadata = {
     title: "Grader & Roller Rental Service | Lahan, Siraha",
     description:
       "Looking for grader rent, roller rent or excavator rental in Siraha? Contact us for equipment rental enquiries.",
-    images: ["/grader-2.webp"],
+    images: ["/grader-2-low.webp"],
   },
 
   robots: {
@@ -139,7 +141,7 @@ const jsonLd = {
     "Grader, road roller and excavator rental services for road construction, land preparation and infrastructure projects in Lahan, Siraha, Nepal.",
   url: siteUrl,
   telephone: "+9779702803911",
-  image: `${siteUrl}/grader-2.webp`,
+  image: `${siteUrl}/grader-2-low.webp`,
   logo: `${siteUrl}/whiteLogoGrader.svg`,
   areaServed: [
     {
@@ -199,9 +201,13 @@ export default function RootLayout({
         {children}
         <MobileActionBar />
         <SiteFooter />
-        <Analytics />
-        <SpeedInsights />
-        <CustomerSupportWidget />
+        <CustomerSupportLoader />
+        {process.env.NODE_ENV === "production" && (
+          <>
+            {/* <Analytics /> */}
+            {/* <SpeedInsights /> */}
+          </>
+        )}
       </body>
     </html>
   );

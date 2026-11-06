@@ -46,6 +46,7 @@ export default function SiteHeader() {
               src="/navLogo.webp"
               alt="SIRAHA Logo"
               width={69}
+              priority
               height={69}
               sizes="69px"
               quality={80}
@@ -57,7 +58,7 @@ export default function SiteHeader() {
             <strong className=" text-[15px] font-extrabold tracking-tight">
               SIRAHA
             </strong>
-            <span className="block text-[10px] font-bold uppercase tracking-[.12em] text-[#697985]">
+            <span className="block text-[10px] font-bold uppercase tracking-[.12em] text-[#52616b]">
               Grader Roller Rental Service
             </span>
           </span>
@@ -68,7 +69,7 @@ export default function SiteHeader() {
             <Link
               key={href}
               href={href}
-              className="text-[13px] font-semibold text-[#425463] transition hover:text-[#a87412]"
+              className="text-[13px] font-semibold text-[#425463] transition hover:text-[#805600]"
             >
               {label}
             </Link>
@@ -107,8 +108,9 @@ export default function SiteHeader() {
       {/* Mobile drawer and backdrop */}
       <div
         className={`fixed top-0 bottom-0 z-[1000] lg:hidden ${open ? "pointer-events-auto" : "pointer-events-none"
-          }`}
+        }`}
         aria-hidden={!open}
+        inert={!open}
       >
         {/* Backdrop */}
         <button
@@ -140,6 +142,7 @@ export default function SiteHeader() {
                   src="/navLogo.webp"
                   alt="SIRAHA Logo"
                   width={69}
+                  priority
                   height={69}
                   sizes="69px"
                   quality={80}
@@ -151,7 +154,7 @@ export default function SiteHeader() {
                 <strong className=" text-[15px] font-extrabold tracking-tight">
                   SIRAHA
                 </strong>
-                <span className="block text-[10px] font-bold uppercase tracking-[.12em] text-[#697985]">
+                <span className="block text-[10px] font-bold uppercase tracking-[.12em] text-[#52616b]">
                   Grader Roller Rental Service
                 </span>
               </span>
@@ -180,10 +183,10 @@ export default function SiteHeader() {
                 href={href}
                 tabIndex={open ? 0 : -1}
                 onClick={() => setOpen(false)}
-                className="flex items-center justify-between border-b border-[#edf0f2] py-4 text-[15px] font-bold text-[#263b4b] transition-colors hover:text-[#a87412]"
+                className="flex items-center justify-between border-b border-[#edf0f2] py-4 text-[15px] font-bold text-[#263b4b] transition-colors hover:text-[#805600]"
               >
                 {label}
-                <ArrowUpRight size={17} className="text-[#a87412]" />
+                <ArrowUpRight size={17} className="text-[#805600]" />
               </Link>
             ))}
           </div>

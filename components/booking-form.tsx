@@ -179,7 +179,7 @@ export default function BookingForm({ presetMachine = "" }: { presetMachine?: st
           {/* Countdown */}
           <div className="mt-9 w-full max-w-md">
             <div className="flex items-center justify-center gap-2">
-              <Clock size={17} className="text-[#d39a25]" />
+              <Clock size={17} className="text-[#805600]" />
               <p className="text-sm font-bold text-[#182b3a]">
                 Next enquiry available in
               </p>
@@ -256,8 +256,8 @@ export default function BookingForm({ presetMachine = "" }: { presetMachine?: st
         </div>
         <div className="mt-5"><label>What would you like to do? *</label>
           <div className="grid grid-cols-2 gap-3">
-            <button type="button" onClick={() => setKind("booking")} className={`cursor-pointer border px-4 py-3 text-sm font-bold ${kind === "booking" ? "border-[#d39a25] bg-[#fff9eb]" : "border-[#d7dfe4]"}`}>Book a machine</button>
-            <button type="button" onClick={() => setKind("contact")} className={`cursor-pointer border px-4 py-3 text-sm font-bold ${kind === "contact" ? "border-[#d39a25] bg-[#fff9eb]" : "border-[#d7dfe4]"}`}>General contact</button>
+            <button type="button" onClick={() => setKind("booking")} className={`cursor-pointer border px-4 py-3 text-sm font-bold ${kind === "booking" ? "border-[#805600] bg-[#fff9eb]" : "border-[#d7dfe4]"}`}>Book a machine</button>
+            <button type="button" onClick={() => setKind("contact")} className={`cursor-pointer border px-4 py-3 text-sm font-bold ${kind === "contact" ? "border-[#805600] bg-[#fff9eb]" : "border-[#d7dfe4]"}`}>General contact</button>
           </div>
         </div>
         {kind === "booking" ? <>

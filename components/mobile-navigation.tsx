@@ -44,6 +44,7 @@ export default function MobileNavigation() {
 
       <div
         aria-hidden={!open}
+        inert={!open}
         onClick={() => setOpen(false)}
         className={`fixed inset-0 z-[70] bg-[#101d28]/45 transition-opacity duration-300 lg:hidden ${open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
       />
@@ -54,11 +55,12 @@ export default function MobileNavigation() {
         aria-modal="true"
         aria-label="Site navigation"
         aria-hidden={!open}
+        inert={!open}
         className={`fixed right-0 top-0 z-[80] flex h-[100vh] h-[100dvh] w-[min(88vw,390px)] flex-col bg-white shadow-2xl transition-transform duration-300 ease-out lg:hidden ${open ? "translate-x-0" : "translate-x-full"}`}
       >
         <div className="flex min-h-20 items-center justify-between border-b border-[#e8ecef] px-5">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#a8791c]">Siraha, Nepal</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#805600]">Siraha, Nepal</p>
             <p className="mt-1 text-base font-extrabold text-[#182b3a]">Equipment Rental</p>
           </div>
           <button type="button" onClick={() => setOpen(false)} aria-label="Close navigation menu" className="flex h-10 w-10 items-center justify-center border border-[#e4e9ed] text-[#182b3a]">
@@ -70,7 +72,7 @@ export default function MobileNavigation() {
           <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-[#87939c]">Explore</p>
           <div className="flex flex-col">
             {links.map((link) => (
-              <Link key={link.href} href={link.href} onClick={() => setOpen(false)} className="border-b border-[#edf0f2] py-4 text-[15px] font-bold text-[#243746] transition-colors hover:text-[#a8791c]">
+              <Link key={link.href} href={link.href} onClick={() => setOpen(false)} className="border-b border-[#edf0f2] py-4 text-[15px] font-bold text-[#243746] transition-colors hover:text-[#805600]">
                 {link.label}
               </Link>
             ))}
