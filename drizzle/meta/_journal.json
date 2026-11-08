@@ -1,0 +1,34 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794110012319,
+      "tag": "0000_wide_puff_adder",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794113209655,
+      "tag": "0001_sleepy_firebird",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794128996277,
+      "tag": "0002_add_account_transactions_and_admin_profile",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794129043532,
+      "tag": "0003_add_account_transactions_and_admin_profile",
+      "breakpoints": true
+    }
+  ]
+}

@@ -195,13 +195,8 @@ export default function RootLayout({
           }}
         />
       </head>
-
       <body>
-        <SiteHeader />
         {children}
-        <MobileActionBar />
-        <SiteFooter />
-        <CustomerSupportLoader />
         {process.env.NODE_ENV === "production" && (
           <>
             <Analytics />
