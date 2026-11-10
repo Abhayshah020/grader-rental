@@ -50,7 +50,7 @@ export default function MobileActionBar() {
   return (
     <nav
       aria-label="Quick actions"
-      className="fixed inset-x-0 bottom-0 z-[40] grid grid-cols-2 gap-2 border-t border-[#e4e9ed] bg-white/95 px-3 pt-2 pb-[max(8px,env(safe-area-inset-bottom))] shadow-[0_-8px_28px_rgba(20,38,52,0.10)] backdrop-blur lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-[90] grid grid-cols-2 gap-2 border-t border-[#e4e9ed] bg-white/95 px-3 pt-2 pb-[max(8px,env(safe-area-inset-bottom))] shadow-[0_-8px_28px_rgba(20,38,52,0.10)] backdrop-blur lg:hidden"
     >
       <a
         href="tel:9702803911"

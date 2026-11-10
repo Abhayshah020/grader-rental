@@ -22,7 +22,7 @@ const navigation = [
     },
     {
         label: "Account",
-        href: "/admin/account",
+        href: "/admin/transactions",
         icon: Wallet,
     },
     {
@@ -55,7 +55,7 @@ export function AdminNavbar() {
 
     return (
         <>
-            <header className="sticky top-0 z-40 border-b border-gray-200 bg-white">
+            <header className="sticky top-0 z-[90] border-b border-gray-200 bg-white">
                 <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
 
                     {/* Logo */}
@@ -121,7 +121,7 @@ export function AdminNavbar() {
             {/* Mobile Backdrop */}
             <div
                 onClick={() => setIsOpen(false)}
-                className={`fixed inset-0 z-50 bg-black/40 transition-opacity duration-300 sm:hidden ${isOpen
+                className={`fixed inset-0 z-[99] bg-black/40 transition-opacity duration-300 sm:hidden ${isOpen
                         ? "visible opacity-100"
                         : "invisible opacity-0"
                     }`}
@@ -133,7 +133,7 @@ export function AdminNavbar() {
                 id="mobile-admin-sidebar"
                 aria-label="Mobile admin navigation"
                 aria-hidden={!isOpen}
-                className={`fixed inset-y-0 left-0 z-[60] flex w-[280px] max-w-[85vw] flex-col border-r border-gray-200 bg-white shadow-2xl transition-transform duration-300 ease-in-out sm:hidden ${isOpen
+                className={`fixed inset-y-0 left-0 z-[100] flex w-[280px] max-w-[85vw] flex-col border-r border-gray-200 bg-white shadow-2xl transition-transform duration-300 ease-in-out sm:hidden ${isOpen
                         ? "translate-x-0"
                         : "-translate-x-full"
                     }`}

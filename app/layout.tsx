@@ -1,16 +1,12 @@
-import dynamic from "next/dynamic";
 
 import type { Metadata } from "next";
 // @ts-ignore Next.js handles global CSS imports at build time.
-import "./globals.css";
-import SiteHeader from "@/components/site-header";
-import SiteFooter from "@/components/site-footer";
-import MobileActionBar from "@/components/mobile-action-bar";
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Poppins } from "next/font/google";
+import "./globals.css";
 
-import CustomerSupportLoader from "@/components/customer-support-loader";
+import { AppDialogProvider } from "@/components/app-dialog";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -196,13 +192,15 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {children}
-        {process.env.NODE_ENV === "production" && (
-          <>
-            <Analytics />
-            <SpeedInsights />
-          </>
-        )}
+        <AppDialogProvider>
+          {children}
+          {process.env.NODE_ENV === "production" && (
+            <>
+              <Analytics />
+              <SpeedInsights />
+            </>
+          )}
+        </AppDialogProvider>
       </body>
     </html>
   );

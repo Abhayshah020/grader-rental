@@ -29,6 +29,20 @@
       "when": 1794129043532,
       "tag": "0003_add_account_transactions_and_admin_profile",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794203518805,
+      "tag": "0004_clear_hannibal_king",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794232638162,
+      "tag": "0005_handy_boomer",
+      "breakpoints": true
     }
   ]
 }

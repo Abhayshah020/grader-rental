@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppDialog } from "@/components/app-dialog";
 import { useCallback, useEffect, useState } from "react";
 
 type AdminUser = {
@@ -28,6 +29,8 @@ const secondaryButton =
     "rounded-lg border cursor-pointer border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 disabled:opacity-50";
 
 export default function UserPage() {
+    const { confirm } = useAppDialog();
+
     const [profile, setProfile] = useState<Profile | null>(null);
     const [users, setUsers] = useState<AdminUser[]>([]);
 
@@ -341,11 +344,18 @@ export default function UserPage() {
     }
 
     async function handleDeleteUser(user: AdminUser) {
-        const confirmed = window.confirm(
-            `Permanently delete ${user.fullName || user.email}? This action cannot be undone.`
+        const confirmed = await confirm(
+            `Permanently delete ${user.fullName || user.email}? This action cannot be undone.`,
+            {
+                title: "Delete User Permanently?",
+                confirmText: "Delete User",
+                cancelText: "Cancel",
+                variant: "danger",
+            }
         );
 
         if (!confirmed) return;
+
 
         setError("");
         setMessage("");
@@ -402,13 +412,6 @@ export default function UserPage() {
         <main className="min-h-[calc(100dvh-60px)] bg-[#f7f9f8] sm:px-5 lg:min-h-[calc(100dvh-70px)] lg:px-7">
             <div className="mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
 
-                {/* Page heading */}
-                <div className="mb-3">
-                    <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">
-                        User & Account Settings
-                    </h1>
-                </div>
-
                 {/* Notifications */}
                 {message && (
                     <div
@@ -429,7 +432,7 @@ export default function UserPage() {
                 )}
 
                 {/* My profile */}
-                <section className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
+                <section className="rounded-xl mb-4 border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
                     <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
                         <div>
                             <h2 className="text-lg font-semibold text-gray-900">
@@ -780,7 +783,7 @@ export default function UserPage() {
             {/* Create admin modal */}
             {showCreateModal && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/40 p-3 sm:p-5"
+                    className="fixed inset-0 z-[10] flex items-center justify-center overflow-y-auto bg-black/40 p-3 sm:p-5"
                     onMouseDown={event => {
                         if (event.target === event.currentTarget) {
                             setShowCreateModal(false);
@@ -953,7 +956,7 @@ export default function UserPage() {
             {/* Edit admin modal */}
             {editingUser && (
                 <div
-                    className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/40 p-3 sm:p-5"
+                    className="fixed inset-0 z-[10] flex items-center justify-center overflow-y-auto bg-black/40 p-3 sm:p-5"
                     onMouseDown={event => {
                         if (event.target === event.currentTarget) {
                             setEditingUser(null);

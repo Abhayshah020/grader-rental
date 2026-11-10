@@ -5,15 +5,15 @@ import { z } from "zod";
 
 import { db } from "@/lib/db";
 import {
-    adminLoginOtps
+  adminLoginOtps
 } from "@/lib/db/schema";
 
 import { verifyOTP } from "@/lib/auth/otp";
 import {
-    generateSessionToken,
-    hashSessionToken,
-    SESSION_COOKIE_NAME,
-    SESSION_DURATION_SECONDS,
+  generateSessionToken,
+  hashSessionToken,
+  SESSION_COOKIE_NAME,
+  SESSION_DURATION_SECONDS,
 } from "@/lib/auth/session";
 
 import { writeAuditLog } from "@/lib/auth/audit";
@@ -254,7 +254,10 @@ export async function POST(request: NextRequest) {
       metadata: {
         sessionId: result.rows[0].id,
         expiresAt: expiresAt.toISOString(),
-        durationDays: 7,
+        durationDays: Math.floor(
+          SESSION_DURATION_SECONDS / 86400
+        ),
+        authenticationMethod: "EMAIL_OTP",
       },
     });
 

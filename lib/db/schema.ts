@@ -13,6 +13,7 @@ import {
   uniqueIndex,
   date,
   numeric,
+  AnyPgColumn,
 } from "drizzle-orm/pg-core";
 
 // ========================================
@@ -245,55 +246,38 @@ export const adminRateLimits = pgTable(
 );
 
 
-
 // ========================================
 // ACCOUNT TRANSACTIONS
 // ========================================
 
-export const accountTransactions = pgTable(
-  "account_transactions",
+export const transactionHeads = pgTable(
+  "transaction_heads",
   {
     id: uuid("id").defaultRandom().primaryKey(),
 
-    transactionType: varchar("transaction_type", {
-      length: 10,
+    name: varchar("name", {
+      length: 150,
     }).notNull(),
 
-    purpose: varchar("purpose", {
-      length: 50,
+    // INCOME_SOURCE, PERSON, COLLECTIVE, EXPENSE, OTHER
+    headType: varchar("head_type", {
+      length: 100,
     }).notNull(),
 
-    transactionDate: date("transaction_date", {
-      mode: "string",
-    }).notNull(),
+    // CREDIT, DEBIT
+    allowedTransactionType: varchar(
+      "allowedTransactionType",
+      { length: 10 }
+    ).notNull().default("BOTH"),
 
-    rentalFromDate: date("rental_from_date", {
-      mode: "string",
-    }),
+    // Show rental from/to dates when selected
+    requiresRentalDates: boolean("requires_rental_dates")
+      .notNull()
+      .default(false),
 
-    rentalToDate: date("rental_to_date", {
-      mode: "string",
-    }),
-
-    amount: numeric("amount", {
-      precision: 12,
-      scale: 2,
-    }).notNull(),
-
-    remarks: text("remarks"),
-
-    createdByAdminId: uuid("created_by_admin_id")
-      .references(() => admins.id, { onDelete: "set null" }),
-
-    updatedByAdminId: uuid("updated_by_admin_id")
-      .references(() => admins.id, { onDelete: "set null" }),
-
-    deletedByAdminId: uuid("deleted_by_admin_id")
-      .references(() => admins.id, { onDelete: "set null" }),
-
-    deletedAt: timestamp("deleted_at", {
-      withTimezone: true,
-    }),
+    isActive: boolean("is_active")
+      .notNull()
+      .default(true),
 
     createdAt: timestamp("created_at", {
       withTimezone: true,
@@ -304,11 +288,110 @@ export const accountTransactions = pgTable(
     }).notNull().defaultNow(),
   },
   (table) => [
-    index("account_transactions_type_idx").on(table.transactionType),
-    index("account_transactions_purpose_idx").on(table.purpose),
-    index("account_transactions_date_idx").on(table.transactionDate),
-    index("account_transactions_deleted_idx").on(table.deletedAt),
-    index("account_transactions_created_by_idx").on(table.createdByAdminId),
+    uniqueIndex("transaction_heads_name_idx").on(table.name),
+    index("transaction_heads_type_idx").on(table.headType),
+    index("transaction_heads_active_idx").on(table.isActive),
   ]
 );
+
+export const accountTransactions = pgTable(
+  "account_transactions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+
+    // CREDIT or DEBIT
+    transactionType: varchar("transaction_type", {
+      length: 10,
+    }).notNull(),
+
+    // Reference to predefined transaction head
+    transactionHeadId: uuid("transaction_head_id")
+      .notNull()
+      .references(() => transactionHeads.id, {
+        onDelete: "restrict",
+      }),
+
+    // Transaction date
+    transactionDate: date("transaction_date", {
+      mode: "string",
+    }).notNull(),
+
+    // Applicable to rental transactions
+    rentalFromDate: date("rental_from_date", {
+      mode: "string",
+    }),
+
+    rentalToDate: date("rental_to_date", {
+      mode: "string",
+    }),
+
+    // Transaction amount
+    amount: numeric("amount", {
+      precision: 12,
+      scale: 2,
+    }).notNull(),
+
+    remarks: text("remarks"),
+
+    // Link expense to its related earning transaction
+    relatedToTransactionId: uuid(
+      "related_to_transaction_id"
+    ).references(
+      (): AnyPgColumn => accountTransactions.id,
+      {
+        onDelete: "restrict",
+      }
+    ),
+
+    // Admin audit fields
+    createdByAdminId: uuid("created_by_admin_id")
+      .references(() => admins.id, {
+        onDelete: "set null",
+      }),
+
+    updatedByAdminId: uuid("updated_by_admin_id")
+      .references(() => admins.id, {
+        onDelete: "set null",
+      }),
+
+    // Timestamps
+    createdAt: timestamp("created_at", {
+      withTimezone: true,
+    })
+      .notNull()
+      .defaultNow(),
+
+    updatedAt: timestamp("updated_at", {
+      withTimezone: true,
+    })
+      .notNull()
+      .defaultNow(),
+  },
+  (table) => [
+    index("account_transactions_type_idx").on(
+      table.transactionType
+    ),
+
+    index("account_transactions_head_idx").on(
+      table.transactionHeadId
+    ),
+
+    index("account_transactions_date_idx").on(
+      table.transactionDate
+    ),
+
+    index("account_transactions_related_idx").on(
+      table.relatedToTransactionId
+    ),
+
+    index("account_transactions_created_by_idx").on(
+      table.createdByAdminId
+    ),
+
+    index("account_transactions_updated_by_idx").on(
+      table.updatedByAdminId
+    ),
+  ]
+);
+
 

@@ -86,7 +86,7 @@ export default function SiteHeader() {
           </a>
 
           <Link
-            href="/booking"
+            href="/booking#enquiry-heading"
             className="btn-primary !px-4 !py-3 text-sm"
           >
             Request a Booking
@@ -107,7 +107,7 @@ export default function SiteHeader() {
 
       {/* Mobile drawer and backdrop */}
       <div
-        className={`fixed top-0 bottom-0 z-[1000] lg:hidden ${open ? "pointer-events-auto" : "pointer-events-none"
+        className={`fixed top-0 bottom-0 z-[100] lg:hidden ${open ? "pointer-events-auto" : "pointer-events-none"
         }`}
         aria-hidden={!open}
         inert={!open}

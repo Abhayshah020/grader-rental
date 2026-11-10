@@ -138,7 +138,7 @@ export default function CustomerSupportWidget() {
 
     return (
         <>
-            <div className="fixed bottom-20 right-4 z-[55] flex flex-col items-end gap-3 lg:bottom-6 sm:right-6">
+            <div className="fixed bottom-20 right-4 z-[95] flex flex-col items-end gap-3 lg:bottom-6 sm:right-6">
 
                 {/* Welcome Popup */}
                 <div

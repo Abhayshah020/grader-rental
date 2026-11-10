@@ -1,0 +1,1 @@
+ALTER TABLE "transaction_heads" RENAME COLUMN "default_transaction_type" TO "allowedTransactionType";

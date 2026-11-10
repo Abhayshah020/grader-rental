@@ -4,9 +4,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LogOut, Loader2 } from "lucide-react";
+import { useAppDialog } from "@/components/app-dialog";
 
 export default function LogoutButton() {
     const router = useRouter();
+    const { alert } = useAppDialog();
+
     const [loading, setLoading] = useState(false);
 
     async function handleLogout() {

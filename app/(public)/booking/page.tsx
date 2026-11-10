@@ -69,7 +69,7 @@ export default function BookingPage() {
                     />
                 </div>
 
-                <div className="container-wide relative z-10 flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8">
+                <div className="container-wide relative z-[1] flex flex-col md:flex-row items-center justify-between gap-5 md:gap-8">
 
                     <div className="w-full md:flex-1">
                         <p className="eyebrow">Booking & contact</p>

@@ -11,7 +11,7 @@ import { admins, adminSessions } from "@/lib/db/schema";
 
 export const SESSION_COOKIE_NAME = "admin_session";
 
-export const SESSION_DURATION_SECONDS = 7 * 24 * 60 * 60;
+export const SESSION_DURATION_SECONDS = 30 * 24 * 60 * 60;
 
 export function generateSessionToken(): string {
   return randomBytes(32).toString("hex");
