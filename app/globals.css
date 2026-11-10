@@ -66,3 +66,10 @@ nepali-date-picker-docked {
     --ndp-radius: 12px;
     --ndp-font: inherit;
 }
+
+/* Remove the black overlay from the Nepali date picker */
+nepali-date-picker-dialog::backdrop {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    opacity: 0 !important;
+}

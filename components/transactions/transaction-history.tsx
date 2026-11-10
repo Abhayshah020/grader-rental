@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 
 import type { AccountTransaction } from "@/lib/finance/types";
+import { formatBS } from "@/lib/date/nepali-date";
 
 interface Props {
     transactions: AccountTransaction[];
@@ -154,7 +155,7 @@ export default function TransactionHistory({
                                 </p>
 
                                 <p className="mt-1 text-xs font-medium text-gray-500">
-                                    {formatDate(transaction.transactionDate)}
+                                    {formatBS(transaction.transactionDate)}
                                 </p>
                             </div>
 
@@ -266,7 +267,7 @@ export default function TransactionHistory({
                             <DetailRow
                                 icon={<CalendarDays size={18} />}
                                 label="Transaction date"
-                                value={selectedTransaction ? formatDate(
+                                value={selectedTransaction ? formatBS(
                                     selectedTransaction.transactionDate
                                 ) : "—"}
                             />
@@ -283,12 +284,12 @@ export default function TransactionHistory({
                                         icon={<CalendarDays size={18} />}
                                         label="Rental period"
                                         value={`${selectedTransaction.rentalFromDate
-                                            ? formatDate(
+                                            ? formatBS(
                                                 selectedTransaction.rentalFromDate
                                             )
                                             : "—"
                                             } – ${selectedTransaction.rentalToDate
-                                                ? formatDate(
+                                                ? formatBS(
                                                     selectedTransaction.rentalToDate
                                                 )
                                                 : "—"
@@ -311,7 +312,7 @@ export default function TransactionHistory({
                                         </p>
 
                                         <p className="mt-1 text-sm text-gray-600">
-                                            {formatDate(
+                                            {formatBS(
                                                 selectedTransaction.relatedTransaction.transactionDate
                                             )}
                                         </p>

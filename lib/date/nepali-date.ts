@@ -58,7 +58,7 @@ export function formatBS(adDate: string): string {
     return formatBsDateByPattern(
         "EEEE, MMMM d, yyyy",
         ...[year, month, day],
-        "ne"
+        "en"
     );
 }
 
