@@ -18,6 +18,7 @@ import type {
 import {
     Search,
 } from "lucide-react";
+import NepaliDateInput from "../nepali-date-input";
 
 interface RelatedCredit {
     id: string;
@@ -270,12 +271,10 @@ export default function TransactionForm({
                         <label className={labelClass}>
                             Transaction Date *
                         </label>
-                        <input
-                            required
-                            type="date"
+                        <NepaliDateInput
                             value={transactionDate}
-                            onChange={(e) => setTransactionDate(e.target.value)}
-                            className={inputClass}
+                            onChange={setTransactionDate}
+                            label="Transaction date"
                         />
                     </div>
 
@@ -318,12 +317,10 @@ export default function TransactionForm({
                                     <label className={labelClass}>
                                         From Date *
                                     </label>
-                                    <input
-                                        required
-                                        type="date"
+                                    <NepaliDateInput
                                         value={rentalFrom}
-                                        onChange={(e) => setRentalFrom(e.target.value)}
-                                        className={inputClass}
+                                        onChange={setRentalFrom}
+                                        label="Rental start date"
                                     />
                                 </div>
 
@@ -331,13 +328,11 @@ export default function TransactionForm({
                                     <label className={labelClass}>
                                         To Date *
                                     </label>
-                                    <input
-                                        required
-                                        type="date"
-                                        min={rentalFrom || undefined}
+                                    <NepaliDateInput
                                         value={rentalTo}
-                                        onChange={(e) => setRentalTo(e.target.value)}
-                                        className={inputClass}
+                                        onChange={setRentalTo}
+                                        min={rentalFrom || undefined}
+                                        label="Rental end date"
                                     />
                                 </div>
                             </div>

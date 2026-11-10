@@ -1,3 +1,4 @@
+import NepaliDateInput from "../nepali-date-input";
 
 export default function TransactionFilter({
     selectedHeadId,
@@ -124,14 +125,13 @@ export default function TransactionFilter({
                                 <label className="mb-1.5 block text-xs font-semibold text-gray-600">
                                     From date
                                 </label>
-                                <input
-                                    type="date"
+                                <NepaliDateInput
                                     value={from}
-                                    onChange={(e) => {
-                                        setFrom(e.target.value);
+                                    onChange={(value) => {
+                                        setFrom(value);
                                         setDatePreset("CUSTOM");
                                     }}
-                                    className="h-11 w-full min-w-0 rounded-lg border border-gray-200 px-2 text-sm"
+                                    label="From date"
                                 />
                             </div>
 
@@ -139,15 +139,14 @@ export default function TransactionFilter({
                                 <label className="mb-1.5 block text-xs font-semibold text-gray-600">
                                     To date
                                 </label>
-                                <input
-                                    type="date"
+                                <NepaliDateInput
                                     value={to}
-                                    min={from || undefined}
-                                    onChange={(e) => {
-                                        setTo(e.target.value);
+                                    onChange={(value) => {
+                                        setTo(value);
                                         setDatePreset("CUSTOM");
                                     }}
-                                    className="h-11 w-full min-w-0 rounded-lg border border-gray-200 px-2 text-sm"
+                                    min={from || undefined}
+                                    label="To date"
                                 />
                             </div>
                         </div>

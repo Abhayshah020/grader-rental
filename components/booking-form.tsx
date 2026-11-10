@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { Phone, Send } from "lucide-react";
 import { Clock, CheckCircle2 } from "lucide-react";
+import NepaliDateInput from "./nepali-date-input";
+import { getTodayAD } from "@/lib/date/nepali-date";
 
 
 export default function BookingForm({ presetMachine = "" }: { presetMachine?: string }) {
@@ -18,6 +20,7 @@ export default function BookingForm({ presetMachine = "" }: { presetMachine?: st
   const [submitted, setSubmitted] = useState(false);
   const [expiresAt, setExpiresAt] = useState<number | null>(null);
   const [remainingMs, setRemainingMs] = useState(0);
+  const todayAD = getTodayAD();
 
   useEffect(() => {
     const expiry = Number(sessionStorage.getItem("enquiry-submitted-until"));
@@ -263,8 +266,22 @@ export default function BookingForm({ presetMachine = "" }: { presetMachine?: st
         {kind === "booking" ? <>
           <div className="mt-5"><label htmlFor="machine">Machine required *</label><select id="machine" required value={machine} onChange={e => setMachine(e.target.value)}><option value="">Select a machine</option><option>Grader</option><option>Road Roller</option><option>Excavator</option></select></div>
           <div className="mt-5 grid gap-5 sm:grid-cols-2">
-            <div><label htmlFor="start">Rental start date *</label><input id="start" type="date" required value={start} min={new Date().toISOString().slice(0, 10)} onChange={e => setStart(e.target.value)} /></div>
-            <div><label htmlFor="end">Rental end date *</label><input id="end" type="date" required min={start || new Date().toISOString().slice(0, 10)} value={end} onChange={e => setEnd(e.target.value)} /></div>
+            <div><label htmlFor="start">Rental start date *</label>
+              <NepaliDateInput
+                value={start}
+                onChange={setStart}
+                min={todayAD}
+                label="Rental start date"
+              />
+            </div>
+            <div><label htmlFor="end">Rental end date *</label>
+              <NepaliDateInput
+                value={end}
+                onChange={setEnd}
+                min={start || todayAD}
+                label="Rental end date"
+              />
+            </div>
           </div>
           <div className="mt-5"><label htmlFor="location">Project / work location *</label><input id="location" required value={location} onChange={e => setLocation(e.target.value)} placeholder="Village, municipality, district or site address" /></div>
           <div className="mt-5"><label htmlFor="details">Additional details (optional)</label><textarea id="details" rows={4} value={details} onChange={e => setDetails(e.target.value)} placeholder="Project type, expected working hours, site access, operator requirements or anything else..." /></div>

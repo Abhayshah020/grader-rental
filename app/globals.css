@@ -48,3 +48,21 @@ label { display:block; color:#344958; font-size:13px; font-weight:700; margin-bo
     scroll-behavior: auto;
   }
 }
+
+/* Nepali date picker */
+nepali-date-picker-docked {
+    display: block;
+    width: 100%;
+    min-width: 0;
+
+    --ndp-bg: #ffffff;
+    --ndp-text: #1f2937;
+    --ndp-muted: #6b7280;
+    --ndp-accent: #267a65;
+    --ndp-on-accent: #ffffff;
+    --ndp-hover: rgba(38, 122, 101, 0.1);
+    --ndp-border: #d1d5db;
+    --ndp-today-ring: #267a65;
+    --ndp-radius: 12px;
+    --ndp-font: inherit;
+}
