@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 import type { AccountTransaction } from "@/lib/finance/types";
-import { formatBS } from "@/lib/date/nepali-date";
+import { formatADShort, formatBS } from "@/lib/date/nepali-date";
 
 interface Props {
     transactions: AccountTransaction[];
@@ -117,7 +117,7 @@ export default function TransactionHistory({
     return (
         <>
             {/* Compact transaction list */}
-            <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+            <div className="overflow-hidden border border-gray-200 bg-white">
                 {transactions.map((transaction, index) => {
                     const credit =
                         transaction.transactionType === "CREDIT";
@@ -129,14 +129,14 @@ export default function TransactionHistory({
                             onClick={() =>
                                 setSelectedTransaction(transaction)
                             }
-                            className={`flex min-h-[76px] w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-gray-50 active:bg-gray-100 ${index !== transactions.length - 1
+                            className={`flex w-full items-center gap-3 px-4 py-2 md:py-3 text-left transition-colors hover:bg-gray-50 active:bg-gray-100 ${index !== transactions.length - 1
                                 ? "border-b border-gray-100"
                                 : ""
                                 }`}
                         >
                             {/* Transaction type indicator */}
                             <div
-                                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${credit
+                                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${credit
                                     ? "bg-green-50 text-green-600"
                                     : "bg-red-50 text-red-600"
                                     }`}
@@ -150,28 +150,25 @@ export default function TransactionHistory({
 
                             {/* Purpose and date */}
                             <div className="min-w-0 flex-1">
-                                <p className="truncate text-[15px] font-semibold text-gray-900">
+                                <p className="truncate text-sm font-semibold text-gray-900">
                                     {transaction.transactionHeadName}
                                 </p>
 
-                                <p className="mt-1 text-xs font-medium text-gray-500">
-                                    {formatBS(transaction.transactionDate)}
+                                <p className="mt-1 text-[10px] font-medium text-gray-500">
+                                    {formatADShort(transaction.transactionDate)}
                                 </p>
                             </div>
 
                             {/* Amount */}
                             <div className="shrink-0 text-right">
                                 <p
-                                    className={`text-[15px] font-bold tabular-nums ${credit
+                                    className={`text-sm font-bold tabular-nums ${credit
                                         ? "text-green-700"
                                         : "text-red-700"
                                         }`}
                                 >
                                     {credit ? "+" : "−"} Rs.{" "}
                                     {formatMoney(transaction.amount)}
-                                </p>
-                                <p className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-gray-400">
-                                    {credit ? "Credit" : "Debit"}
                                 </p>
                             </div>
 

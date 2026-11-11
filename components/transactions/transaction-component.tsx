@@ -322,8 +322,8 @@ export default function TransactionPage() {
 
     return (
         <main className="min-h-dvh bg-[#f7f8fa] text-gray-900">
-            <div className="mx-auto max-w-5xl px-4 pt-5 pb-10 sm:px-6 sm:pt-8">
-                <section className="mb-4 relative">
+            <div className="mx-auto max-w-5xl pt-5 pb-10 sm:pt-8">
+                <section className="mb-4 relative px-4 sm:px-6">
                     <form
                         onSubmit={handleSearch}
                         className="flex items-center gap-2"
@@ -384,14 +384,16 @@ export default function TransactionPage() {
 
                 {/* Error */}
                 {error && (
-                    <div className="mb-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-                        {error}
+                    <div className="flex w-full items-center justify-center">
+                        <div className="mb-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+                            Something went wrong
+                        </div>
                     </div>
                 )}
 
                 {/* History */}
                 <section>
-                    <div className="mb-3 flex items-center justify-between">
+                    <div className="mb-3 flex items-center justify-between px-4 sm:px-6">
                         <h2 className="text-sm text-gray-800">
                             {heads.find((h) => h.id === selectedHeadId)?.name || "All"} Transaction History
                         </h2>
@@ -400,28 +402,31 @@ export default function TransactionPage() {
                             {transactions.length} loaded
                         </span>
                     </div>
-
-                    <TransactionHistory
-                        transactions={transactions}
-                        loading={loading}
-                        onEdit={openEdit}
-                        onDelete={handleDelete}
-                        setSelectedTransaction={setSelectedTransaction}
-                        selectedTransaction={selectedTransaction}
-                    />
+                    <div className="sm:px-6">
+                        <TransactionHistory
+                            transactions={transactions}
+                            loading={loading}
+                            onEdit={openEdit}
+                            onDelete={handleDelete}
+                            setSelectedTransaction={setSelectedTransaction}
+                            selectedTransaction={selectedTransaction}
+                        />
+                    </div>
 
                     {page < totalPages && (
-                        <button
-                            onClick={() => loadTransactions(page + 1, true)}
-                            disabled={loadingMore}
-                            className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white font-semibold text-gray-700 disabled:opacity-50"
-                        >
-                            {loadingMore ? (
-                                <Loader2 className="animate-spin" size={18} />
-                            ) : (
-                                "Load More"
-                            )}
-                        </button>
+                        <div className="flex w-full items-center justify-center">
+                            <button
+                                onClick={() => loadTransactions(page + 1, true)}
+                                disabled={loadingMore}
+                                className="mt-4 px-10 cursor-pointer flex h-12 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white font-semibold text-gray-700 disabled:opacity-50"
+                            >
+                                {loadingMore ? (
+                                    <Loader2 className="animate-spin" size={18} />
+                                ) : (
+                                    "Load More"
+                                )}
+                            </button>
+                        </div>
                     )}
                 </section>
             </div>

@@ -47,6 +47,8 @@ export function bsToAd(bsDate: string): string {
 
 /**
  * Display an existing AD date in readable Nepali BS format.
+ * Input: AD YYYY-MM-DD
+ * Output: BS date (e.g. Wednesday, Kartik 25, 2083)
  */
 export function formatBS(adDate: string): string {
     if (!adDate) return "";
@@ -55,9 +57,13 @@ export function formatBS(adDate: string): string {
 
     if (!year || !month || !day) return "";
 
+    const bs = convertAdToBs(year, month, day);
+
     return formatBsDateByPattern(
         "EEEE, MMMM d, yyyy",
-        ...[year, month, day],
+        bs.year,
+        bs.month,
+        bs.dayOfMonth,
         "en"
     );
 }
@@ -80,4 +86,24 @@ export function getTodayAD(): string {
  */
 export function getTodayBS(): string {
     return adToBs(getTodayAD());
+}
+
+/**
+ * Format AD date as: Sun, DD/MM/YYYY
+ * Input: YYYY-MM-DD
+ */
+export function formatADShort(adDate: string): string {
+    if (!adDate) return "";
+
+    const [year, month, day] = adDate.split("-").map(Number);
+
+    if (!year || !month || !day) return "";
+
+    const date = new Date(year, month - 1, day);
+
+    const weekday = new Intl.DateTimeFormat("en", {
+        weekday: "short",
+    }).format(date);
+
+    return `${weekday}, ${String(day).padStart(2, "0")}/${String(month).padStart(2, "0")}/${year}`;
 }
