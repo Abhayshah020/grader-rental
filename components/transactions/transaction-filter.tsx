@@ -1,3 +1,4 @@
+import { FileDown, Loader2 } from "lucide-react";
 import NepaliDateInput from "../nepali-date-input";
 
 export default function TransactionFilter({
@@ -19,6 +20,8 @@ export default function TransactionFilter({
     heads,
     setSearchInput,
     loadTransactions,
+    downloadTransactionsPDF,
+    downloadingPDF,
 }: {
     setSearchInput: (input: string) => void;
     loadTransactions: () => void;
@@ -38,7 +41,8 @@ export default function TransactionFilter({
     to: string;
     setTo: (date: string) => void;
     setType: (type: string) => void;
-
+    downloadTransactionsPDF: () => void;
+    downloadingPDF: boolean;
 }) {
     return (
         <>
@@ -229,6 +233,28 @@ export default function TransactionFilter({
                             </button>
                         </div>
 
+                        <button
+                            type="button"
+                            onClick={downloadTransactionsPDF}
+                            disabled={downloadingPDF}
+                            className="inline-flex w-full items-center justify-center gap-2
+                                        rounded-xl border border-blue-200 bg-blue-50
+                                        px-4 py-2.5 text-[11px] font-semibold text-blue-700
+                                        transition-colors hover:bg-blue-100
+                                        disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            {downloadingPDF ? (
+                                <>
+                                    <Loader2 className="h-4 w-4 animate-spin" />
+                                    Generating PDF...
+                                </>
+                            ) : (
+                                <>
+                                    <FileDown className="h-4 w-4" />
+                                    Download Current Statement
+                                </>
+                            )}
+                        </button>
                         {/* Actions */}
                         <div className="mt-5 flex gap-3">
                             <button

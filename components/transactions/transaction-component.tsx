@@ -38,6 +38,36 @@ import TransactionForm from "./transaction-form";
 import TransactionHeadManager from "./transaction-head-manager";
 import TransactionFilter from "./transaction-filter";
 import { useAppDialog } from "../app-dialog";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+
+import { formatADShort } from "@/lib/date/nepali-date";
+
+interface TransactionPDFRow {
+    id: string;
+    transactionType: "CREDIT" | "DEBIT";
+    transactionHeadName: string;
+    transactionDate: string;
+    amount: string | number;
+    remarks: string | null;
+    relatedTransaction: {
+        transactionDate: string;
+        amount: string | number;
+        transactionHeadName: string;
+    } | null;
+}
+
+interface TransactionAPIResponse {
+    success: boolean;
+    message?: string;
+    data: TransactionPDFRow[];
+    pagination: {
+        page: number;
+        limit: number;
+        total: number;
+        totalPages: number;
+    };
+}
 
 export default function TransactionPage() {
     const { alert, confirm } = useAppDialog();
@@ -78,6 +108,8 @@ export default function TransactionPage() {
     const [selectedHeadId, setSelectedHeadId] = useState("ALL");
     const [datePreset, setDatePreset] = useState("ALL");
 
+    const [downloadingPDF, setDownloadingPDF] = useState(false);
+
     const getDateRange = (preset: string) => {
         const today = new Date();
         const end = new Date(today);
@@ -111,6 +143,319 @@ export default function TransactionPage() {
             to: toISO(end),
         };
     };
+
+    const downloadTransactionsPDF = useCallback(async () => {
+        setDownloadingPDF(true);
+        setError("");
+
+        try {
+            // Reuse exactly the same filters as transaction history.
+            const params = new URLSearchParams({
+                page: "1",
+                limit: "100",
+                includeRelated: String(includeRelated),
+            });
+
+            if (searchInput.trim()) {
+                params.set("search", searchInput.trim());
+            }
+
+            if (type !== "ALL") {
+                params.set("type", type);
+            }
+
+            if (from) params.set("from", from);
+            if (to) params.set("to", to);
+
+            if (selectedHeadId !== "ALL") {
+                params.set("headId", selectedHeadId);
+            }
+
+            // Fetch first page.
+            const firstResponse = await fetch(
+                `/api/admin/finance/transactions?${params.toString()}`,
+                { cache: "no-store" }
+            );
+
+            const firstResult: TransactionAPIResponse =
+                await firstResponse.json();
+
+            if (!firstResponse.ok || !firstResult.success) {
+                throw new Error(
+                    firstResult.message || "Failed to fetch transactions."
+                );
+            }
+
+            const allTransactions = [...firstResult.data];
+
+            // Fetch remaining pages if necessary.
+            for (
+                let page = 2;
+                page <= firstResult.pagination.totalPages;
+                page++
+            ) {
+                params.set("page", String(page));
+
+                const response = await fetch(
+                    `/api/admin/finance/transactions?${params.toString()}`,
+                    { cache: "no-store" }
+                );
+
+                const result: TransactionAPIResponse =
+                    await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(
+                        result.message || `Failed to fetch page ${page}.`
+                    );
+                }
+
+                allTransactions.push(...result.data);
+            }
+
+            if (!allTransactions.length) {
+                throw new Error(
+                    "No transactions found for the selected filters."
+                );
+            }
+
+            // Oldest transactions first.
+            allTransactions.sort((a, b) => {
+                const dateComparison =
+                    a.transactionDate.localeCompare(b.transactionDate);
+
+                if (dateComparison !== 0) return dateComparison;
+
+                return a.id.localeCompare(b.id);
+            });
+
+            // Calculate totals.
+            const totalCredit = allTransactions
+                .filter((t) => t.transactionType === "CREDIT")
+                .reduce((sum, t) => sum + Number(t.amount || 0), 0);
+
+            const totalDebit = allTransactions
+                .filter((t) => t.transactionType === "DEBIT")
+                .reduce((sum, t) => sum + Number(t.amount || 0), 0);
+
+            const netMovement = totalCredit - totalDebit;
+
+            const formatAmount = (amount: number) =>
+                `Rs. ${amount.toLocaleString("en-IN", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                })}`;
+
+            // Create PDF.
+            const doc = new jsPDF({
+                orientation: "portrait",
+                unit: "mm",
+                format: "a4",
+            });
+
+            const pageWidth = doc.internal.pageSize.getWidth();
+
+            // Document heading.
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(17);
+            doc.text("TRANSACTION STATEMENT", pageWidth / 2, 17, {
+                align: "center",
+            });
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(9);
+            doc.setTextColor(90);
+
+            doc.text(
+                `Generated on: ${formatADShort(
+                    new Date().toISOString().slice(0, 10)
+                )}`,
+                pageWidth / 2,
+                24,
+                { align: "center" }
+            );
+
+            // Applied filters.
+            doc.setTextColor(40);
+            doc.setFontSize(9);
+
+            const filterParts = [
+                `Type: ${type === "ALL" ? "All Transactions" : type}`,
+                `From: ${from ? formatADShort(from) : "All"}`,
+                `To: ${to ? formatADShort(to) : "All"}`,
+                `Records: ${allTransactions.length}`,
+            ];
+
+            doc.text(filterParts.join("    |    "), 14, 33);
+
+            // Table data.
+            const tableRows = allTransactions.map((transaction) => {
+                let particulars = transaction.remarks?.trim() || "-";
+
+                if (
+                    includeRelated &&
+                    transaction.transactionType === "DEBIT" &&
+                    transaction.relatedTransaction
+                ) {
+                    particulars +=
+                        `\nRelated earning: ${transaction.relatedTransaction.transactionHeadName}`;
+                }
+
+                return [
+                    formatADShort(transaction.transactionDate),
+                    particulars,
+                    transaction.transactionHeadName,
+                    transaction.transactionType === "CREDIT"
+                        ? formatAmount(Number(transaction.amount))
+                        : "-",
+                    transaction.transactionType === "DEBIT"
+                        ? formatAmount(Number(transaction.amount))
+                        : "-",
+                ];
+            });
+
+            autoTable(doc, {
+                startY: 39,
+                head: [[
+                    "Date",
+                    "Particulars",
+                    "Transaction Head",
+                    "Credit",
+                    "Debit",
+                ]],
+                body: tableRows,
+
+                theme: "grid",
+
+                styles: {
+                    font: "helvetica",
+                    fontSize: 8,
+                    cellPadding: 2.5,
+                    textColor: [45, 55, 65],
+                    lineColor: [220, 225, 230],
+                    lineWidth: 0.15,
+                    overflow: "linebreak",
+                    valign: "middle",
+                },
+
+                headStyles: {
+                    fillColor: [235, 242, 247],
+                    textColor: [35, 55, 70],
+                    fontStyle: "bold",
+                    halign: "center",
+                },
+
+                columnStyles: {
+                    0: { cellWidth: 27 },
+                    1: { cellWidth: 57 },
+                    2: { cellWidth: 35 },
+                    3: { cellWidth: 33, halign: "right" },
+                    4: { cellWidth: 33, halign: "right" },
+                },
+
+                foot: [
+                    [
+                        {
+                            content: "TOTAL CREDIT",
+                            colSpan: 3,
+                            styles: { halign: "right", fontStyle: "bold" },
+                        },
+                        {
+                            content: formatAmount(totalCredit),
+                            styles: { fontStyle: "bold", halign: "right" },
+                        },
+                        "",
+                    ],
+                    [
+                        {
+                            content: "TOTAL DEBIT",
+                            colSpan: 3,
+                            styles: { halign: "right", fontStyle: "bold" },
+                        },
+                        "",
+                        {
+                            content: formatAmount(totalDebit),
+                            styles: { fontStyle: "bold", halign: "right" },
+                        },
+                    ],
+                    [
+                        {
+                            content: "NET MOVEMENT",
+                            colSpan: 3,
+                            styles: { halign: "right", fontStyle: "bold" },
+                        },
+                        {
+                            content: netMovement >= 0
+                                ? formatAmount(netMovement)
+                                : "-",
+                            styles: { fontStyle: "bold", halign: "right" },
+                        },
+                        {
+                            content: netMovement < 0
+                                ? formatAmount(Math.abs(netMovement))
+                                : "-",
+                            styles: { fontStyle: "bold", halign: "right" },
+                        },
+                    ],
+                ],
+
+                showFoot: "lastPage",
+
+                footStyles: {
+                    fillColor: [245, 247, 249],
+                    textColor: [35, 45, 55],
+                    lineColor: [190, 200, 210],
+                    lineWidth: 0.2,
+                },
+
+                margin: {
+                    top: 12,
+                    left: 14,
+                    right: 14,
+                    bottom: 20,
+                },
+
+                didDrawPage: () => {
+                    const pageHeight = doc.internal.pageSize.getHeight();
+
+                    doc.setFontSize(8);
+                    doc.setTextColor(130);
+                    doc.setFont("helvetica", "normal");
+
+                    doc.text(
+                        `Page ${doc.internal.pages.length - 1}`,
+                        pageWidth - 14,
+                        pageHeight - 8,
+                        { align: "right" }
+                    );
+                },
+            });
+
+            // Download.
+            const filename = `transaction-statement-${new Date()
+                .toISOString()
+                .slice(0, 10)}.pdf`;
+
+            doc.save(filename);
+
+        } catch (err) {
+            setError(
+                err instanceof Error
+                    ? err.message
+                    : "Failed to generate transaction statement."
+            );
+        } finally {
+            setDownloadingPDF(false);
+        }
+    }, [
+        searchInput,
+        type,
+        from,
+        to,
+        selectedHeadId,
+        includeRelated,
+    ]);
+
 
     const loadHeads = useCallback(async () => {
         const response = await fetch(
@@ -380,6 +725,8 @@ export default function TransactionPage() {
                     heads={heads}
                     setSearchInput={setSearchInput}
                     loadTransactions={loadTransactions}
+                    downloadTransactionsPDF={downloadTransactionsPDF}
+                    downloadingPDF={downloadingPDF}
                 />
 
                 {/* Error */}
