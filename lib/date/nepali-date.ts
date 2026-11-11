@@ -89,8 +89,9 @@ export function getTodayBS(): string {
 }
 
 /**
- * Format AD date as: Sun, DD/MM/YYYY
- * Input: YYYY-MM-DD
+ * Format AD date as Nepali BS: Sun, DD/MM/YYYY
+ * Input: AD YYYY-MM-DD
+ * Output: BS weekday, DD/MM/YYYY
  */
 export function formatADShort(adDate: string): string {
     if (!adDate) return "";
@@ -99,11 +100,16 @@ export function formatADShort(adDate: string): string {
 
     if (!year || !month || !day) return "";
 
+    // Convert AD to BS
+    const bs = convertAdToBs(year, month, day);
+
+    // Get weekday from the original AD date
+    // Weekdays remain the same in both calendars.
     const date = new Date(year, month - 1, day);
 
     const weekday = new Intl.DateTimeFormat("en", {
         weekday: "short",
     }).format(date);
 
-    return `${weekday}, ${String(day).padStart(2, "0")}/${String(month).padStart(2, "0")}/${year}`;
+    return `${weekday}, ${String(bs.dayOfMonth).padStart(2, "0")}/${String(bs.month).padStart(2, "0")}/${bs.year}`;
 }
